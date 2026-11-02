@@ -1,0 +1,26 @@
+echo '===== 操作系统 ====='
+cat /etc/os-release
+
+echo '===== CPU 架构与可用线程 检查====='
+uname -m
+nproc
+
+echo '===== 内存检查 ====='
+free -h
+
+echo '===== 磁盘检查 ====='
+df -h / /root
+
+echo '===== Conda 检查====='
+conda --version
+conda env list
+
+echo '===== 常用工具检查 ====='
+for x in git curl wget docker singularity apptainer tmux; do
+    command -v "$x" || true
+done
+
+echo '===== 原有软件目录 ====='
+find /root -maxdepth 2 -type d \
+    \( -iname '*edta*' -o -iname '*annotep*' \) \
+    -print 2>/dev/null

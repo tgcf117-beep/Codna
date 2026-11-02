@@ -20,7 +20,20 @@ for x in git curl wget docker singularity apptainer tmux; do
     command -v "$x" || true
 done
 
-echo '===== 原有软件目录 ====='
+echo '===== 原有软件目录 =====检查Linux系统状态，下面这个地址可能到得换'
 find /root -maxdepth 2 -type d \
     \( -iname '*edta*' -o -iname '*annotep*' \) \
     -print 2>/dev/null
+
+echo '===== 安装进程 ====='
+ps -eo pid,etime,pcpu,pmem,stat,args | grep -E '[c]onda env create|[t]ee install-edta'
+
+echo '===== 剩余磁盘 ====='
+df -h /
+
+echo '===== 最近安装日志 ====='
+tail -n 15 /root/EDTA-GUI/install-edta-env.log
+
+echo '===== 最近两分钟更新的下载文件 ====='
+find /root/miniconda3/pkgs -maxdepth 2 -type f -mmin -2 \
+  -printf '%TY-%Tm-%Td %TH:%TM:%TS %10s %f\n' 2>/dev/null | tail -n 12

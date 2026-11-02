@@ -38,3 +38,20 @@ cat install.sh
 cd /root/EDTA-GUI &&
 set -o pipefail &&
 conda env create -f edta_env.yml 2>&1 | tee install-edta-env.log
+
+echo '===== 已有环境 ====='
+conda env list
+
+echo '===== 剩余空间 ====='
+df -h /
+
+echo '===== AnnoTEP 环境配置要装俩环境因为EDTA-GUI就是俩环境 ====='
+cat /root/EDTA-GUI/annotep_env.yml
+
+conda env list
+df -h /
+head -n 12 /root/EDTA-GUI/annotep_env.yml  '=====这一步是检查磁盘内存 ====='
+
+df -h / '=====查看空间和安装结果 ====='
+conda env list
+tail -n 25 /root/EDTA-GUI/install-annotep-env.log '=====这里很容易出错还是看AI吧 ====='

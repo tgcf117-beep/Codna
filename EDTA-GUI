@@ -1,1 +1,40 @@
+echo '===== 检查所有磁盘 ====='
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
 
+echo '===== 下载 EDTA-GUI 项目 ====='
+git clone https://github.com/Marcos-Fernando/EDTA-GUI.git /root/EDTA-GUI
+
+echo '===== 检查下载结果 ====='
+if [ -d /root/EDTA-GUI/.git ]; then
+    git -C /root/EDTA-GUI rev-parse HEAD
+    ls -lh /root/EDTA-GUI
+    echo '===== 官方安装说明 ====='
+    sed -n '1,240p' /root/EDTA-GUI/README.md
+fi
+
+echo '===== 磁盘 ====='
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
+
+echo '===== 检查下载安装的EDTA-GUI项目版本 =====此处是2.0版本的EDTA-GUI' 
+git -C /root/EDTA-GUI rev-parse HEAD
+
+echo '===== EDTA-GUI安装说明前120行 ====='
+head -n 120 /root/EDTA-GUI/README.md
+
+cd /root/EDTA-GUI &&
+git switch --detach v1.1 &&
+echo '===== 已选版本 =====' &&
+git describe --tags --exact-match &&
+echo '===== 安装脚本 =====' &&
+cat install.sh
+
+cd /root/EDTA-GUI &&
+git switch --detach v1.1 &&    '===== 已选版本因为参考文献是1.1版本所以这里也切换成1.1版本 =====' 
+echo '===== 已选版本 =====' &&
+git describe --tags --exact-match &&
+echo '===== 安装脚本 =====' &&
+cat install.sh
+
+cd /root/EDTA-GUI &&
+set -o pipefail &&
+conda env create -f edta_env.yml 2>&1 | tee install-edta-env.log
